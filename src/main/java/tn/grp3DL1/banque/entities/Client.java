@@ -17,7 +17,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 @Entity
-@DiscriminatorValue("client")
+//@DiscriminatorValue("client")
 public class Client implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
