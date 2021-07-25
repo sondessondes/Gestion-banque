@@ -11,10 +11,15 @@ import javax.persistence.OneToOne;
 
 @Entity
 @DiscriminatorValue("administrateur")
-public class Administrateur implements Serializable {
+public class Administrateur extends Utilisateur implements Serializable {
 
 	public Administrateur() {
 		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public Administrateur(Long id, String cin, String nom, String prenom, String mail) {
+		super(id, cin, nom, prenom, mail);
 		// TODO Auto-generated constructor stub
 	}
 
