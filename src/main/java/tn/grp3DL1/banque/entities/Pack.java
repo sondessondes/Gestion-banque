@@ -30,6 +30,22 @@ public class Pack implements Serializable {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	
+	
+	
+	public Pack(Long cmpt_depot, Long cmpt_epargne, Long crt_liberte, Boolean cmpt_distance, Boolean assurance,
+			Client client) {
+		super();
+		this.cmpt_depot = cmpt_depot;
+		this.cmpt_epargne = cmpt_epargne;
+		this.crt_liberte = crt_liberte;
+		this.cmpt_distance = cmpt_distance;
+		this.assurance = assurance;
+		this.client = client;
+	}
+
+
+
 	public Pack(Long id, Long cmpt_depot, Long cmpt_epargne, Long crt_liberte, Boolean cmpt_distance,
 			Boolean assurance) {
 		super();
@@ -75,6 +91,18 @@ public class Pack implements Serializable {
 	}
 	public void setAssurance(Boolean assurance) {
 		this.assurance = assurance;
+	}
+
+
+
+	public Client getClient() {
+		return client;
+	}
+
+
+
+	public void setClient(Client client) {
+		this.client = client;
 	}
 	
 	
