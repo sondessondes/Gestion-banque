@@ -1,6 +1,7 @@
 package tn.grp3DL1.banque.entities;
 
 import java.io.Serializable;
+
 import java.util.Date;
 import java.util.List;
 
@@ -18,53 +19,50 @@ import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
 @Entity
-@Inheritance(strategy=InheritanceType.JOINED)
+@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name="TYPE_COMPTE")
+@JsonTypeInfo(use=JsonTypeInfo.Id.NAME,include=JsonTypeInfo.As.PROPERTY,
+property="type_cpte")
+@JsonSubTypes({@Type(name="CC",value=Compte_courant.class),
+	@Type(name="CE",value=Compte_epargne.class)
+})
 public class Compte implements Serializable   {
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	protected int livret_compteN;
 	protected String numeroCompte;
-//compte
+
 	@Temporal (TemporalType.DATE)
 	protected Date   date_ouverture;
 	protected String nom;
 	protected String prenom;
-	
 	@Temporal (TemporalType.DATE)
-	protected Date date_naissance;
-	
+	protected Date date_naissance;	
 	protected String Adresse;
 	protected int tel;
 	protected String cin;
 	protected double solde;
-	
 	@ManyToOne
-	private Agence agence;
-	
+	@JsonIgnore
+	protected Agence agence;
 	@ManyToOne
-	private Client client;
-	
+	@JsonIgnore
+	protected Client client;
 	@OneToMany(mappedBy="compte",fetch=FetchType.LAZY)
-	private List <Operation> operations;
-	 
+	@JsonIgnore
+	protected List <Operation> operations;
 	public Compte() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
-	
-	
-	
-	
-
-
-
-	public Compte(int livret_compteN, String numeroCompte, Date date_ouverture, String nom, String prenom,
-			Date date_naissance, String adresse, int tel, String cin, double solde, Agence agence, Client client,
+	public Compte(String numeroCompte, Date date_ouverture, String nom, String prenom, Date date_naissance,
+			String adresse, int tel, String cin, double solde, Agence agence, Client client,
 			List<Operation> operations) {
 		super();
-		this.livret_compteN = livret_compteN;
 		this.numeroCompte = numeroCompte;
 		this.date_ouverture = date_ouverture;
 		this.nom = nom;
@@ -77,19 +75,6 @@ public class Compte implements Serializable   {
 		this.agence = agence;
 		this.client = client;
 		this.operations = operations;
-	}
-
-
-
-
-
-
-
-	public int getLivret_compteN() {
-		return livret_compteN;
-	}
-	public void setLivret_compteN(int livret_compteN) {
-		this.livret_compteN = livret_compteN;
 	}
 	public String getNumeroCompte() {
 		return numeroCompte;
@@ -145,7 +130,12 @@ public class Compte implements Serializable   {
 	public void setSolde(double solde) {
 		this.solde = solde;
 	}
-	
+	public Agence getAgence() {
+		return agence;
+	}
+	public void setAgence(Agence agence) {
+		this.agence = agence;
+	}
 	public Client getClient() {
 		return client;
 	}
@@ -158,7 +148,15 @@ public class Compte implements Serializable   {
 	public void setOperations(List<Operation> operations) {
 		this.operations = operations;
 	}
+	@Override
+	public String toString() {
+		return "Compte [numeroCompte=" + numeroCompte + ", date_ouverture=" + date_ouverture + ", nom=" + nom
+				+ ", prenom=" + prenom + ", date_naissance=" + date_naissance + ", Adresse=" + Adresse + ", tel=" + tel
+				+ ", cin=" + cin + ", solde=" + solde + ", agence=" + agence + ", client=" + client + ", operations="
+				+ operations + "]";
+	}
 
+	
 	
 	
 	
