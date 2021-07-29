@@ -11,6 +11,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import tn.grp3DL1.banque.entities.Pack1;
+<<<<<<< HEAD
+=======
+import tn.grp3DL1.banque.service.Pack1ServiceImpl;
+>>>>>>> branch 'master' of https://github.com/sihemsouli/Gestion-banque.git
 
 
 
@@ -20,8 +24,13 @@ class GestionBanqueApplicationTests {
 
 	private static final Logger L = LogManager.getLogger(GestionBanqueApplication.class);
 	
+<<<<<<< HEAD
 	//@Autowired
 	//PackServiceImpl ps1;
+=======
+	@Autowired
+	Pack1ServiceImpl ps1;
+>>>>>>> branch 'master' of https://github.com/sihemsouli/Gestion-banque.git
 	
 	//@Test
 //public	void testAjouterPack() throws ParseException {
