@@ -16,6 +16,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 //@DiscriminatorValue("client")
 public class Client implements Serializable {
@@ -29,7 +31,8 @@ public class Client implements Serializable {
 	private String adresse;
 	private String mail;
 	
-	@OneToMany(mappedBy="client",fetch= FetchType.LAZY)
+	@OneToMany(mappedBy="client",fetch= FetchType.LAZY ,cascade=CascadeType.PERSIST)
+	@JsonIgnore
 	private Collection <Compte> comptes; 
 
 	@OneToMany(mappedBy="client",fetch= FetchType.LAZY)
@@ -41,9 +44,7 @@ public class Client implements Serializable {
 	@OneToOne
 	private Pack pack;
 	
-	
-	@Enumerated(EnumType.STRING)
-	private  Type_clt cible;
+
 	
 	public Client() {
 		super();
@@ -133,16 +134,7 @@ public class Client implements Serializable {
 	public void setFactures(Collection<Extrait_bancaire> extrait_bancaires) {
 		this.extrait_bancaires = extrait_bancaires;
 	}
-	
-	
-	public Type_clt getCible() {
-		return cible;
-	}
-	public void setCible(Type_clt cible) {
-		this.cible = cible;
-	}
 
-	
 	
 
 

@@ -15,29 +15,67 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 @Entity
-@Inheritance(strategy=InheritanceType.JOINED)
-@DiscriminatorColumn(name="TYPE_OP",discriminatorType=DiscriminatorType.STRING,length=1)
+
+@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name="TYPE_OP")
+@JsonTypeInfo(use=JsonTypeInfo.Id.NAME,include=JsonTypeInfo.As.PROPERTY,
+property="type_oper")
+@JsonSubTypes({@Type(name="v",value=Versement.class),
+	@Type(name="r",value=Retrait.class)})
+
 public class Operation implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Long id;
+	protected Long id;
 	
 	@Temporal (TemporalType.DATE)
-    private Date dateOperation;
+	protected Date dateOperation;
+	protected double montant;
 	
-	private String  type;
 	
 	@ManyToOne
-	private Compte compte;
+	@JsonIgnore
+	protected Compte compte;
 	
 	@OneToOne
-	private Extrait_bancaire extrait_bancaire;
-
+	@JsonIgnore
+	protected Extrait_bancaire extrait_bancaire;
+	/*@ManyToOne
+	@JsonIgnore
+	protected  Client code_client;*/
 	public Operation() {
 		super();
 		// TODO Auto-generated constructor stub
+	}
+
+	public Operation(Long id, Date dateOperation, double montant, Compte compte, Extrait_bancaire extrait_bancaire) {
+		super();
+		this.id = id;
+		this.dateOperation = dateOperation;
+		this.montant = montant;
+		this.compte = compte;
+		this.extrait_bancaire = extrait_bancaire;
+	}
+
+	public Operation(Date dateOperation, double montant, Compte compte) {
+		super();
+		this.dateOperation = dateOperation;
+		this.montant = montant;
+		this.compte = compte;
+	}
+
+	public Operation(Long id, Date dateOperation, double montant) {
+		super();
+		this.id = id;
+		this.dateOperation = dateOperation;
+		this.montant = montant;
 	}
 
 	public Long getId() {
@@ -56,12 +94,12 @@ public class Operation implements Serializable {
 		this.dateOperation = dateOperation;
 	}
 
-	public String getType() {
-		return type;
+	public double getMontant() {
+		return montant;
 	}
 
-	public void setType(String type) {
-		this.type = type;
+	public void setMontant(double montant) {
+		this.montant = montant;
 	}
 
 	public Compte getCompte() {
@@ -71,7 +109,20 @@ public class Operation implements Serializable {
 	public void setCompte(Compte compte) {
 		this.compte = compte;
 	}
-	
-	
+
+	public Extrait_bancaire getExtrait_bancaire() {
+		return extrait_bancaire;
+	}
+
+	public void setExtrait_bancaire(Extrait_bancaire extrait_bancaire) {
+		this.extrait_bancaire = extrait_bancaire;
+	}
+
+	@Override
+	public String toString() {
+		return "Operation [id=" + id + ", dateOperation=" + dateOperation + ", montant=" + montant + ", compte="
+				+ compte + ", extrait_bancaire=" + extrait_bancaire + "]";
+	}
+
 	
 }

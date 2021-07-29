@@ -1,6 +1,7 @@
 package tn.grp3DL1.banque.entities;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 public class Extrait_bancaire implements Serializable {
@@ -15,7 +18,8 @@ public class Extrait_bancaire implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	private String type_facture;
-	private String date_facture;
+	@Temporal (TemporalType.DATE)
+	private Date date_facture;
 	private double montant_verse;
 	private double montant_retrait;
 	
@@ -41,10 +45,11 @@ public class Extrait_bancaire implements Serializable {
 	public void setType_facture(String type_facture) {
 		this.type_facture = type_facture;
 	}
-	public String getDate_facture() {
+
+	public Date getDate_facture() {
 		return date_facture;
 	}
-	public void setDate_facture(String date_facture) {
+	public void setDate_facture(Date date_facture) {
 		this.date_facture = date_facture;
 	}
 	public double getMontant_verse() {
